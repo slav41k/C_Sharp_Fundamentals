@@ -21,12 +21,10 @@
 
             
             //Task 2
-            Console.Write("Enter the year: ");
-            int year = Int32.Parse(Console.ReadLine());
             Console.Write("Enter the number of month: ");
             int month = Int32.Parse(Console.ReadLine());
-            int daysInMonth = DateTime.DaysInMonth(year, month);
-            Console.WriteLine(daysInMonth);
+            int daysInMonth = DateTime.DaysInMonth(2024, month);
+            Console.WriteLine((daysInMonth == 29) ? $"The month have 28 or 29 days" : $"The month have {daysInMonth} days");
             
             
             //Task 3
