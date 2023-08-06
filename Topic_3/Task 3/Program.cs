@@ -54,13 +54,27 @@ class Program
         
         //Task 4
         
-        Console.WriteLine("Array : { 1, 5, 7, 43, -6 }");
-        Console.ReadKey();
-        int[] nums = { 1, 5, 7, 43, -6 };
+        Console.WriteLine("Enter count of numbers: ");
+        int count = Int32.Parse(Console.ReadLine());
+        int[] nums = new int [count];
+        for (int i = 0; i < count; i++)
+        {
+            Console.WriteLine($"Enter {i + 1} number: ");
+            nums[i] = int.Parse(Console.ReadLine());
+        }
+
         int sum = 0;
+        double average = 0;
         for (int i = 0; i < nums.Length; i++)
             sum += (nums[i] >= 0) ? nums[i] : 0;
-        int average = sum / (nums.Length - 1);
+        if (nums[count - 1] < 0)
+        {
+             average = sum / (nums.Length - 1);
+        }
+        else
+        {
+            average = nums.Average();
+        }
         Console.WriteLine($"Sum: {sum}\nAvarage: {average}");
         
         
