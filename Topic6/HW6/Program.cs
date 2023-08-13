@@ -1,22 +1,15 @@
-﻿using System;
-
 namespace HW6
 {
-    internal class Program
+    internal static class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
-            // Number number = new();
-            // int number1, number2;
-            // number.Input(out number1, out number2);
-            // double result = number.Div(number1, number2);
-            // Console.WriteLine($"Result of dividing: {result:N3}");
-            // int start, end;
-            List<int> numbers = new();
-            Number number = new();
-            
-            number.ReadNumber(0, 0, numbers);
-            
+            Number.Input(out int lNum, out int rNum);
+            Console.WriteLine($"Result of dividing: {Number.Div(lNum, rNum):N3}");
+
+            List<int> nums = new();
+            Number.ReadNumber(nums);
+            Number.OutPut(nums);
         }
     }
 }
