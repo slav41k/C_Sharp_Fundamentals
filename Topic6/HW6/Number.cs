@@ -1,112 +1,115 @@
 namespace HW6;
 
-public class Number
+public static class Number
 {
-    private List<int> numbers = new List<int>();
-    public void Input(out int num1, out int num2)
+    public static double Div(int lNum, int rNum) => ((double)lNum / rNum);
+
+    public static void Input(out int fstNum, out int sndNum)
     {
-        input:
-        try
+        while (true)
         {
-            Console.WriteLine("Enter 2 numbers: \nFirst number: ");
-            num1 = Int32.Parse(Console.ReadLine());
-            Console.WriteLine("Second number: ");
-            num2 = Int32.Parse(Console.ReadLine());
-
-            if (num2 == 0)
-                throw new DivideByZeroException("Cannot divide by zero");
-
-            if (num1 < Int32.MinValue || num1 > Int32.MaxValue || num2 < Int32.MinValue || num2 > Int32.MaxValue)
-                throw new OverflowException(" Value was either too large or too small");
-        }
-        catch (FormatException ex)
-        {
-            Console.WriteLine(ex.Message);
-            goto input;
-        }
-        catch (DivideByZeroException ex)
-        {
-            Console.WriteLine(ex.Message);
-            goto input;
-        }
-        catch (OverflowException ex)
-        {
-            Console.WriteLine(ex.Message);
-            goto input;
-        }
-        
-    }
-    public double Div(int num1, int num2)
-    {
-        double result = ((double)num1 / num2);
-        return result;
-    }
-
-    public void ReadNumber(int start, int end, List<int> numbers)
-    {
-        inputList:
-        try
-        {
-            Console.WriteLine("Enter start number: ");
-            start = Int32.Parse(Console.ReadLine());
-            Console.WriteLine("Enter end number: ");
-            end = Int32.Parse(Console.ReadLine());
-
-            if (Math.Abs(start - end) < 10)
-            {
-                throw new ArgumentException("Difference of 2 numbers should be more than 10");
-            }
-        }
-        catch (FormatException ex)
-        {
-            Console.WriteLine(ex.Message);
-            goto inputList;
-        }
-        catch (ArgumentException ex)
-        {
-            Console.WriteLine(ex.Message);
-        }
-
-        for (int i = 0; i < 10; i++)
-        {
-            inputNumbers:
             try
             {
-                Console.WriteLine($"Enter {i + 1} number:");
-                int number = Int32.Parse(Console.ReadLine());
+                Console.WriteLine("Enter 2 numbers. \nFirst number: ");
+                fstNum = Int32.Parse(Console.ReadLine() ?? throw new NullReferenceException($"{nameof(fstNum)} is null"));
 
-                if (number < start || number > end)
-                {
-                    throw new ArgumentException($"Number should be from {start} to {end}");
-                }
+                Console.WriteLine("Second number: ");
+                sndNum = Int32.Parse(Console.ReadLine() ?? throw new NullReferenceException($"{nameof(sndNum)} is null"));
 
-                if (numbers[i] > numbers[i + 1])
-                {
-                    throw new Exception("Numbers should be from largest to smallest");
-                }
-
-                numbers.Add(number);
+                if (sndNum == 0)
+                    throw new DivideByZeroException("Cannot divide by zero");
             }
             catch (FormatException ex)
             {
                 Console.WriteLine(ex.Message);
-                goto inputNumbers;
+                continue;
+            }
+            catch (DivideByZeroException ex)
+            {
+                Console.WriteLine(ex.Message);
+                continue;
+            }
+            catch (OverflowException ex)
+            {
+                Console.WriteLine(ex.Message);
+                continue;
+            }
+
+            break;
+        }
+    }
+
+    public static void ReadNumber(List<int> numbers)
+    {
+        while (true)
+        {
+            int start,
+                end;
+            try
+            {
+                Console.WriteLine("Enter start number: ");
+                start = Int32.Parse(Console.ReadLine() ?? throw new NullReferenceException($"{nameof(start)} is null"));
+                Console.WriteLine("Enter end number: ");
+                end = Int32.Parse(Console.ReadLine() ?? throw new NullReferenceException($"{nameof(end)} is null"));
+
+                if (Math.Abs(start - end) < 10)
+                    throw new ArgumentException("Difference of 2 numbers should be more than 10");
+            }
+            catch (FormatException ex)
+            {
+                Console.WriteLine(ex.Message);
+                continue;
             }
             catch (ArgumentException ex)
             {
                 Console.WriteLine(ex.Message);
-                goto inputNumbers;
+                continue;
             }
-            catch (Exception ex)
+            catch (OverflowException ex)
             {
                 Console.WriteLine(ex.Message);
-                goto inputNumbers;
+                continue;
             }
+
+            int previousNumber = -1;
+            for (int ii = 0; ii < 10; ii++)
+            {
+                while (true)
+                {
+                    try
+                    {
+                        Console.WriteLine($"Enter {ii + 1} number:");
+                        int number = Int32.Parse(Console.ReadLine() ?? throw new NullReferenceException($"{nameof(number)} is null"));
+
+                        if (number < start || number > end)
+                            throw new ArgumentException($"Number should be from {start} to {end}");
+                        if (previousNumber != -1 && previousNumber >= number)
+                            throw new Exception("Numbers should be from smallest to largest");
+                        if (end - number < 10 - (ii + 1))
+                            throw new Exception("You won't rich end with this number");
+                        previousNumber = number;
+                        numbers.Add(number);
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                        continue;
+                    }
+
+                    break;
+                }
+            }
+
+            break;
         }
     }
 
-    public override string ToString()
+    public static void OutPut(List<int> numbers)
     {
-        return $"{numbers}";
+        for (int j = 0; j < numbers.Count; j++)
+        {
+            Console.WriteLine($"Number {j + 1}: {numbers[j]}");
+        }
     }
+
 }
